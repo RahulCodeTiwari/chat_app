@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore';
-import { EyeOff, Mail, User } from 'lucide-react';
+import { Eye, Loader2, Lock, Mail, MessageSquare, EyeOff, User } from 'lucide-react';
+import { Link } from "react-router-dom";
+
+import AUthImagePattern from "../components/AuthImagePattern";
+import toast from "react-hot-toast";
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,14 +14,37 @@ const SignupPage = () => {
     password: "",
   });
 
-  const { signup, isSignUp } = useAuthStore();
+  const { signup, isSigningUp } = useAuthStore();
 
-  const validateForm = () => {}
-  const handleSubmit = () => {
-    e.preventDefault()
-  }
+  const validateForm = () => {
+    if(!formData.fullName.trim())
+      return toast.error("Full name is required");
+    if(!formData.email.trim()) 
+      return toast.error("Email is required");
+    if(!/\S+@\.\S+/.test(formData.email)) 
+      return toast.error("Invalid email format");
+    if(!formData.password)
+      return toast.error("Password is required");
+    if(formData.password.length < 6)
+      return toast.error("Password must be at least 6 characters");
+
+    return true;
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const success = validateForm();
+
+    if(success === true)
+      signup(formData);
+  };
+
+
   return (
    <div className='min-h-screen grid lg:grid=cols-2'>
+    {/* left side */}
      <div className='flex flex-col justiry-center items-center p-6 sm:p-12'>
      <div className='w-full max-w-md space-y-8'>
       {/* logo */}
@@ -81,9 +108,9 @@ const SignupPage = () => {
               <input
               type={showPassword ? "text" : "password"}
               className={`imput input-bordered w-full pl-10`}
-              pllaceholder='Rahul Tiwari'
-              value={formData.fullName}
-              onChange={(e) => setFormData({...formData, fullName: e.target.value })}
+              pllaceholder='*******'
+              value={formData.password}
+              onChange={(e) => setFormData({...formData, password: e.target.value })}
               />
               <button
               type='button'
@@ -100,7 +127,7 @@ const SignupPage = () => {
             </div>
           </div>
 
-          <button type='submit' className='btn btn-primary w-full' disable={isSigningUp}>
+          <button type='submit' className='btn btn-primary w-full' disabled={isSigningUp}>
             
             {
               isSigningUp ? (
@@ -126,10 +153,14 @@ const SignupPage = () => {
         </div>
      </div>
      </div>
-   </div>
-   
- 
-  )
-}
+     {/* right side */}
 
-export default SignupPage
+     <AUthImagePattern
+      title="Join our community"
+      subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
+     />
+   </div>
+  );
+};
+
+export default SignupPage;

@@ -12,7 +12,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.0.8",
     "axios": "^1.7.9",
-    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -24,6 +24,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@eslint/js": "^9.19.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
