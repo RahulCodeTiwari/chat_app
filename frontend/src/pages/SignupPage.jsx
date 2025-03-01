@@ -21,7 +21,7 @@ const SignupPage = () => {
       return toast.error("Full name is required");
     if(!formData.email.trim()) 
       return toast.error("Email is required");
-    if(!/\S+@\.\S+/.test(formData.email)) 
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) 
       return toast.error("Invalid email format");
     if(!formData.password)
       return toast.error("Password is required");
@@ -88,11 +88,11 @@ const SignupPage = () => {
                 <Mail className='size-5 text-base-content/40' />
               </div>
               <input
-              type='text'
+              type='email'
               className={`imput input-bordered w-full pl-10`}
               pllaceholder='Rahul Tiwari'
-              value={formData.fullName}
-              onChange={(e) => setFormData({...formData, fullName: e.target.value })}
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value })}
               />
             </div>
           </div>
